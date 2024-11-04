@@ -357,6 +357,9 @@ When REPORTER provided update the progress."
              ;; create the child to be added to the results list
              (child
               (ztree-diff-node-create node nil file2 children-status)))
+        ;; if b is directory and b is not in a, add to ignore
+        (when (and isdir (not (ztree-diff-model-find-in-files list1 (ztree-file-short-name file2) t)))
+          (setf (ztree-diff-node-different child) 'ignore))
         ;; update ignore status of the child
         (when (ztree-diff-model-should-ignore child)
           (setf (ztree-diff-node-different child) 'ignore))
